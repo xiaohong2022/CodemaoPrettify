@@ -20,11 +20,11 @@
 
 3.点击保存 `Ctrl+S`
 
-4.成功安装，打开[编程猫首页](shequ.codemao.cn)即可预览
+4.成功安装，打开[编程猫首页](https://shequ.codemao.cn)即可预览
  
 ## 如何使用？
 
-1.打开[编程猫首页](shequ.codemao.cn)
+1.打开[编程猫首页](https://shequ.codemao.cn)
 
 2.点击导航栏的“…”
 
