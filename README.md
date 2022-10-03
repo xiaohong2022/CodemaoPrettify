@@ -14,7 +14,7 @@
 
 ## 如何安装？
 
-1.先安装一个脚本管理器（例如：油猴 `tempermonkey`、脚本猫 `ScriptCat`）
+1.先安装一个脚本管理器（例如：油猴 `tempermonkey`、脚本猫 `ScriptCat`，可以参考[这个网页](https://greasyfork.org/)）
 
 2.点击“新建脚本”
 
