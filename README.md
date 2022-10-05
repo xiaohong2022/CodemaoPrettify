@@ -20,7 +20,7 @@
 
 2.点击“新建脚本”
 
-3.把 [代码](code) 粘贴到里面
+3.把 [代码](https://github.com/xiaohong2022/CodemaoPrettify/blob/main/index.js) 粘贴到里面
 
 4.点击保存 `Ctrl+S`
 
