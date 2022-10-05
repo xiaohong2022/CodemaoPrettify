@@ -14,13 +14,21 @@
 
 ## 如何安装？
 
+### 方法一：
+
 1.先安装一个脚本管理器（例如：油猴 `tempermonkey`、脚本猫 `ScriptCat`，可以参考[这个网页](https://greasyfork.org/)）
 
 2.点击“新建脚本”
 
-3.点击保存 `Ctrl+S`
+3.把代码粘贴到里面
 
-4.成功安装，打开[编程猫首页](https://shequ.codemao.cn)即可预览
+4.点击保存 `Ctrl+S`
+
+5.成功安装，打开[编程猫首页](https://shequ.codemao.cn)即可预览
+
+### 方法二：
+
+到[Greasy Fork](https://greasyfork.org/zh-CN/scripts/452450-codemaoprettify)里安装
  
 ## 如何使用？
 
