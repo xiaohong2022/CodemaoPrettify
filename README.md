@@ -20,22 +20,22 @@
 
 2.点击“新建脚本”
 
-3.把代码粘贴到里面
+3.把 [代码](code) 粘贴到里面
 
 4.点击保存 `Ctrl+S`
 
-5.成功安装，打开[编程猫首页](https://shequ.codemao.cn)即可预览
+5.成功安装，打开 [编程猫首页](https://shequ.codemao.cn) 即可预览
 
 ### 方法二：
 
-到[Greasy Fork](https://greasyfork.org/zh-CN/scripts/452450-codemaoprettify)里安装
+到 [Greasy Fork](https://greasyfork.org/zh-CN/scripts/452450-codemaoprettify) 里安装
  
 ## 如何使用？
 
-1.打开[编程猫首页](https://shequ.codemao.cn)
+1.打开 [编程猫首页](https://shequ.codemao.cn)
 
 2.点击导航栏的“…”
 
-3.点击“CodemaoPrettify”打开进行设置
+3.点击 “CodemaoPrettify” 打开进行设置
 
 4.设置完成后点击保存
