@@ -1,6 +1,8 @@
 # CodemaoPrettify
 美化编程猫主页的一个小插件
 
+<img src=https://img.shields.io/badge/version-v1.2.0-green />
+
 ## 目前支持：
 1.更改主题色
 
