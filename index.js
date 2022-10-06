@@ -532,6 +532,7 @@
         updata()
         updata()
     }
+    t19.children[0].children[0].value=settings.css;
     SettingsRoot.onclick = (() => {
         new mdui.Dialog(SettingsRootdialog).open();
         logs("设置窗口被打开");
