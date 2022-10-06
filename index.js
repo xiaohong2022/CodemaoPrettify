@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         CodemaoPrettify
 // @namespace    https://shequ.codemao.cn/
-// @version      1.0.0
-// @description  CodemaoPrettify
-// @author       小宏XeLa
+// @version      1.2.0
+// @description  美化编程猫主页的一个小插件
+// @author       xiaohong2022
 // @match        *://shequ.codemao.cn/*
 // @match        *://shequ.codemao.cn/
 // @icon         https://shequ.codemao.cn/favicon.ico
@@ -19,7 +19,7 @@
     try {
         console.log('%cCodemaoPrettify', 'text-shadow: 0 1px 0 #ccc,0 2px 0 #ffc9c9,0 3px 0 #bbb,0 4px 0 #ffb9b9,0 5px 0 #aaa,0 6px 1px rgba(255,0,0,.1),0 0 5px rgba(255,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(255,0,0,.2),0 5px 10px rgba(255,0,0,.25);font-size:3em;color:#f00');
         console.log("%c嘿，欢迎使用 CodemaoPrettify！", "font-size:10px;padding:10px 0px 5px 0px");
-        console.log("%cCodemaoPrettify v1.1.0", "font-size:10px;color:#f00");
+        console.log("%cCodemaoPrettify v1.2.0", "font-size:10px;color:#f00");
         console.log("%cCopyright (c) 2022 xiaohong2022", "font-size:10px;padding:0px 0px 10px 0px;color:#f00");
 
         f((...content) => {
@@ -125,11 +125,31 @@
             "节日类": false,
             "其他": false,
         },
+        coursehide: {
+            "源码编程课": false,
+            "3D编程课": false,
+            "Python编程课": false,
+            "移动端编程课": false,
+            "幼儿编程课": false,
+        },
+        usercenterhide: {
+            "等级": false,
+            "工作室": false,
+            "关注、粉丝": false,
+            "荣誉墙": false,
+            "我正在做什么": false,
+        },
+        banner: {
+            open: false,
+            colormode: false,
+            color: "#000",
+            image: "https://cdn-community.codemao.cn/community_frontend/asset/banner_65b4a.png"
+        },
+        css: "",
         showfooter: true,
         showsidenav: true,
         usemdui: true,
     });
-    logs("读取：" + new Date().toJSON());
     logs("数据读取完毕");
     logs("Settings", settings);
 
@@ -152,6 +172,7 @@
         ".r-setting--main_area .r-setting--btn_save", ".r-setting--account_setting .r-setting--setting_item .r-setting--setting_btn",
         ".r-work_manager--work_manager_wrap .r-work_manager--content_wrap .r-work_manager--content_container .r-work_manager--content .r-work_manager--blank_content .r-work_manager--wrap .r-work_manager--create_button .r-work_manager--web_create",
         ".r-work_manager-c-action_button--action_button", "button:not(.slick-arrow)",
+        ".r-work_manager--work_manager_wrap .r-work_manager--content_wrap .r-work_manager--content_container .r-work_manager--content .r-work_manager--blank_content .r-work_manager--wrap .r-work_manager--create_button .r-work_manager--client_create_wrap",
     ].forEach((e) => {
         setInterval(() => {// 使用循环添加，防止消失
             if (settings.usemdui) {
@@ -170,22 +191,49 @@
     function createRootStyleCss(d) {
         return `:root{--xhbcmpre-theme-color:${d.theme.color};--xhbcmpre-theme-hover:${d.theme.hover};--xhbcmpre-theme-highlight:${d.theme.highlight};--xhbcmpre-theme-transparent:${d.theme.transparent};}
         ${d.showfooter ? "" : ".r-work_manager--work_manager_wrap .r-work_manager--content_wrap .r-work_manager--footer_wrap,.c-footer--footer_wrap{display:none}"}
-        ${d.showsidenav ? "" : ".r-course-c-guide--slide_nav_wrap,.c-side_nav--side_nav_cont{display:none}"}`
+        ${d.showsidenav ? "" : ".r-course-c-guide--slide_nav_wrap,.c-side_nav--side_nav_cont{display:none}"}
+        ${d.banner.open ? `.r-user-c-banner--banner .r-user-c-banner--background{${d.banner.colormode ? `background:${d.banner.color}!important` : `background-image:url(${d.banner.image})!important`}}` : ""}
+        ${d.css}`
     }
     const Theme_Style_Setting = GM_addStyle("");
     function updata() {
         Theme_Style_Setting.innerHTML = createRootStyleCss(settings);
         GM_setValue("settings", settings);
-        logs("存档：" + new Date().toJSON());
     }
     updata();
     logs("主题色样式设置加载完毕");
 
     // 控制面板
     const SettingsRoot = addhtml($(`.c-navigator--item[data-watch_event="更多-入口tab"] > div > .c-navigator--second_nav > ul`)[0], "li", { class: "c-navigator--dropdown_item" }, `<a>CodemaoPrettify</a>`);
-    const SettingsRootdialog = addhtml(document.body, "div", { class: "mdui-dialog", id: "CodemaoPrettify-Settings-Dialog" }, `<div class="mdui-dialog-title">CodemaoPrettify 设置</div><div class="mdui-dialog-content" style="height: 46px;"></div><div class="mdui-dialog-actions"><a href="javascript:;" class="mdui-btn mdui-ripple mdui-text-color-primary">默认</a><a href="javascript:;" class="mdui-btn mdui-ripple mdui-text-color-primary">保存（需要刷新）</a></div>`)
+    const SettingsRootdialog = addhtml(document.body, "div", { class: "mdui-dialog", id: "CodemaoPrettify-Settings-Dialog" }, `<div class="mdui-dialog-content" style="height: 46px;"></div><div class="mdui-dialog-actions"><a href="javascript:;" class="mdui-btn mdui-ripple mdui-text-color-primary">使用默认设置</a><a href="javascript:;" class="mdui-btn mdui-ripple mdui-text-color-primary">保存（需要刷新）</a></div>`)
     function addcheckbox(position, text, isselect = false) {
         const acb1 = addhtml(position, "label", { class: "mdui-checkbox" }, `<input type="checkbox" ${isselect ? "checked" : ""}/><i class="mdui-checkbox-icon"></i>${text}`);
+        let r = {
+            input: acb1.querySelector("input"),
+            this: acb1,
+            onchange: null,
+            getvalue: function () {
+                return this.input.checked;
+            },
+            setvalue: function (v) {
+                this.input.checked = !!v
+                this.input.onchange()
+            },
+        };
+        r.input.onchange = (() => {
+            updata();
+            updata();
+            updata();
+            updata();
+            updata();
+            if (r.onchange) {
+                r.onchange(r.getvalue(), text);
+            };
+        })
+        return r
+    }
+    function addradio(position, text, name, isselect = false) {
+        const acb1 = addhtml(position, "label", { class: "mdui-radio" }, `<input type="radio" name="${name}" ${isselect ? "checked" : ""}/><i class="mdui-radio-icon"></i>${text}`);
         let r = {
             input: acb1.querySelector("input"),
             this: acb1,
@@ -241,9 +289,13 @@
         }
         return r;
     }
-    const content = SettingsRootdialog.children[1];
-    const resetbtn = SettingsRootdialog.children[2].children[0];
-    const offbtn = SettingsRootdialog.children[2].children[1];
+    const content = SettingsRootdialog.children[0];
+    const resetbtn = SettingsRootdialog.children[1].children[0];
+    const offbtn = SettingsRootdialog.children[1].children[1];
+    addhtml(content, "p", { style: "text-shadow: 0 1px 0 #ccc,0 2px 0 #ffc9c9,0 3px 0 #bbb,0 4px 0 #ffb9b9,0 5px 0 #aaa,0 6px 1px rgba(255,0,0,.1),0 0 5px rgba(255,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(255,0,0,.2),0 5px 10px rgba(255,0,0,.25);font-size:3em;color:#f00" },
+        "CodemaoPrettify");
+    addhtml(content, "p", {}, "CodemaoPrettify v1.2.0 GPL-3.0");
+    addhtml(content, "p", {}, "Copyright © 2022 xiaohong2022 All Rights Reserved.");
     addhtml(content, "p", { class: "mdui-typo-title" }, "主色调");
     const t2 = addcolorbox(content, settings.theme.color)
     addhtml(content, "p", { class: "mdui-typo-title" }, "辅色调");
@@ -317,6 +369,18 @@
             settings.homehide[t] = !v
         })
     }
+    addhtml(content, "p", { class: "mdui-typo-title" }, "课程页排版");
+    var t18 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
+    for (const oooo in settings.coursehide) {
+        let t8 = addcheckbox(t18, oooo, !settings.coursehide[oooo])
+        t7.push(t8);
+        t8.onchange = ((v, t) => {
+            settings.coursehide[t] = !v
+            updata();
+            updata();
+            updata();
+        })
+    }
     addhtml(content, "p", { class: "mdui-typo-title" }, "发现页排版");
     var t11 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
     for (const oooo in settings.discoverhide) {
@@ -343,6 +407,130 @@
         t8.onchange = ((v, t) => {
             settings.galleryhide[t] = !v
         })
+    }
+    addhtml(content, "p", { class: "mdui-typo-title" }, "个人中心排版");
+    var t28 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
+    for (const oooo in settings.usercenterhide) {
+        let t8 = addcheckbox(t28, oooo, !settings.usercenterhide[oooo])
+        t7.push(t8);
+        t8.onchange = ((v, t) => {
+            settings.usercenterhide[t] = !v
+        })
+    }
+    var t1 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
+    var t20 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
+    var t27 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
+    let t24 = addcheckbox(t1, "自定义个人中心背景", settings.banner.open)
+    const t22 = "Codemao_Prettify_Personal_Center_Background_Mode_Select_Radio_4_xa_5_kf_74_a_84_w_02_t_87_ig_85_rc_84_s_6_fg_4_q_6_gk_4_uj_6_svl_9_Name_t_2_2_xh_2022_CodeId_452450_Greasy_Fork_Save_End_"
+    var t21 = addradio(t1, "颜色", t22, settings.banner.colormode)
+    var t23 = addradio(t1, "图片", t22, !settings.banner.colormode)
+    var t25 = addhtml(t20, "img", { src: settings.banner.image, width: 200, height: "100%", style: "margin-top:10px;margin-bottom:20px;cursor: pointer;", "mdui-tooltip": "{content: '点击切换图片', position: 'top'}" }, "");
+    var t26 = addcolorbox(t27, settings.banner.color);
+    function updatabanner(v) {
+        if (v) {
+            t20.style.display = ""
+            t21.this.style.display = ""
+            t27.style.display = ""
+            t23.this.style.display = ""
+        } else {
+            t20.style.display = "none"
+            t27.style.display = "none"
+            t21.this.style.display = "none"
+            t23.this.style.display = "none"
+        }
+    }
+    function updatabanner2(v) {
+        if (v) {
+            t25.style.display = "none"
+            t26.this.style.display = ""
+        } else {
+            t25.style.display = ""
+            t26.this.style.display = "none"
+        }
+    }
+    t26.onchange = (v) => {
+        settings.banner.color = v;
+    };
+    updatabanner2(settings.banner.colormode)
+    updatabanner(settings.banner.open)
+    t24.onchange = ((v) => {
+        updatabanner(v)
+        settings.banner.open = v
+        updata()
+        updata()
+        updata()
+        updata()
+    })
+    t23.onchange = ((v) => {
+        updatabanner2(false)
+        settings.banner.colormode = false
+        updata()
+        updata()
+        updata()
+        updata()
+    })
+    t21.onchange = ((v) => {
+        updatabanner2(true)
+        settings.banner.colormode = true
+        updata()
+        updata()
+        updata()
+        updata()
+    })
+    t26.onchange = ((v) => {
+        settings.banner.color = v
+        updata()
+        updata()
+        updata()
+        updata()
+    })
+    t25.onclick = function () {
+        const filee = addhtml(document.body, "input", { style: "display:none", type: 'file', accept: "image" }, "");
+        filee.click()
+        filee.onchange = function () {
+            filee.remove();
+            var file = this.files[0];
+            if (!file) return;
+            logs(file)
+            if (/image\/\w+/.test(file.type)) {
+                if (FileReader) {
+                    var reader = new FileReader();
+                    var imgFile;
+                    reader.readAsDataURL(file);
+                    reader.onload = (e) => {
+                        imgFile = e.target.result;
+                        t25.src = imgFile;
+                        settings.banner.image = imgFile
+                        updata()
+                        updata()
+                        updata()
+                        updata()
+                    };
+                } else {
+                    const urlobj = URL || window.URL || window.webkitURL || window;
+                    var imageURL = urlobj.createObjectURL(file);
+                    t25.src = imageURL;
+                    settings.banner.image = imageURL
+                    updata()
+                    updata()
+                    updata()
+                    updata()
+                }
+            } else {
+                alert("文件格式错误！")
+            }
+        }
+    }
+    addhtml(content, "p", { class: "mdui-typo-title" }, "自定义CSS");
+    var t19 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, `<div class="mdui-textfield"><textarea class="mdui-textfield-input"></textarea></div>`);
+    t19.children[0].children[0].oninput = ({ target }) => {
+        settings.css = target.value;
+        updata()
+        updata()
+        updata()
+        updata()
+        updata()
+        updata()
     }
     SettingsRoot.onclick = (() => {
         new mdui.Dialog(SettingsRootdialog).open();
@@ -378,9 +566,17 @@
         t3.setvalue("#f6b206")
         t4.setvalue("#ec443d")
         t5.setvalue("#faefda")
+        t24.setvalue(false);
+        settings.banner.image = "https://cdn-community.codemao.cn/community_frontend/asset/banner_65b4a.png"
+        t25.src = "https://cdn-community.codemao.cn/community_frontend/asset/banner_65b4a.png"
+        t26.setvalue("#000")
         t7.forEach((e) => {
             e.setvalue(true)
         })
+        updata();
+        updata();
+        updata();
+        updata();
         t14.setvalue(true)
         logs("数据已重置");
     })
@@ -482,6 +678,47 @@
                         } else {
                             e.style.display = "none"
                         }
+                    }
+                })
+            } catch (e) { }
+        }
+        for (const o in settings.coursehide) {
+            try {
+                $(`.r-course-c-block--block`).each((a, e) => {
+                    const data = {
+                        "源码编程课": "0 1 2 3 4 5 6",
+                        "3D编程课": "7 8",
+                        "Python编程课": "9",
+                        "移动端编程课": "10 11",
+                        "幼儿编程课": "12",
+                    }
+                    for (const iii in data) {
+                        let iiii = data[iii].split(" ")
+                        if (iiii.includes(String(a))) {
+                            if (settings.coursehide[iii]) {
+                                e.style.display = "none"
+                            } else {
+                                e.style.display = ""
+                            }
+                        }
+                    }
+                })
+            } catch (e) { }
+        }
+        for (const o in settings.usercenterhide) {
+            const data = {
+                "等级": "r-user-c-banner--icon",
+                "工作室": "r-user-c-tooltips--tooltip",
+                "我正在做什么": "r-user-c-button-panel--bottom",
+                "荣誉墙": "r-user-c-slide-panel--middle",
+                "关注、粉丝": "r-user-c-slide-panel--top",
+            }
+            try {
+                $("." + data[o]).each((_, e) => {
+                    if (!settings.usercenterhide[o]) {
+                        e.style.display = ""
+                    } else {
+                        e.style.display = "none"
                     }
                 })
             } catch (e) { }
@@ -600,6 +837,7 @@
     .r-community-r-detail-c-report_comment--bottom_options .r-community-r-detail-c-report_comment--option,
     .r-work_manager-c-action_button--action_button:hover,
     .r-user-c-banner--banner .r-user-c-banner--background .r-user-c-banner--container .r-user-c-banner--right-box .r-user-c-banner--btn.r-user-c-banner--master,
+    .mdui-radio-icon::before,
     .r-work_manager--work_manager_wrap .r-work_manager--content_wrap .r-work_manager--content_container .r-work_manager--content .r-work_manager--blank_content .r-work_manager--wrap .r-work_manager--create_button .r-work_manager--web_create
     {background:var(--xhbcmpre-theme-color)!important;}
 
@@ -650,7 +888,7 @@
     .r-community-r-detail-c-comment_item--content_container .r-community-r-detail-c-comment_item--content_bottom .r-community-r-detail-c-comment_item--content_praise.r-community-r-detail-c-comment_item--active i,
     .r-work-c-comment_area-c-comment_item--content_container .r-work-c-comment_area-c-comment_item--content_bottom .r-work-c-comment_area-c-comment_item--content_praise.r-work-c-comment_area-c-comment_item--active i,
     .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion.r-work-c-comment_area-c-comment_editor--active,
-    .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion:hover
+    .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion:hover,
     {color:var(--xhbcmpre-theme-color)!important;}
 
     .r-discover--header .r-discover--switch-box .r-discover--active,
@@ -676,10 +914,12 @@
     .r-community-c-forum_sender--container .r-community-c-forum_sender--form_item .r-community-c-forum_sender--title_input:focus,
     .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--editor:focus,
     .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion.r-work-c-comment_area-c-comment_editor--active,
-    .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion:hover
+    .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion:hover,
+    .mdui-radio input[type=radio]:checked+.mdui-radio-icon
     {border-color:var(--xhbcmpre-theme-color)!important;}
     /* 其他 */
     .r-discover-c-tagList--sort_cont .r-discover-c-tagList--sort_item:hover{color:#fff!important;background:var(--xhbcmpre-theme-hover)!important;}
+    .mdui-dialog-actions .mdui-btn{color:var(--xhbcmpre-theme-color)!important;}
     .r-home-c-banner--banner_sub_item > a{position: unset!important;}
     .c-post_box-post_cont--post_cont .c-post_box-post_cont--send_btn:hover{color:#fff!important}
     .r-home-c-community_star--user_recommend_cont .r-home-c-community_star--user_recommend_item[data-data_report_btn_name="首页-社区星推荐"] a{position: unset!important;}
@@ -687,8 +927,12 @@
     .CodemaoPrettify-ColorBox input {background: #fff;}
     .r-setting--account_setting .r-setting--setting_item .r-setting--setting_btn{color:#fff!important;}
     .CodemaoPrettify-flex {display: flex;flex-direction: column;}
-    ::-moz-selection {background: ;color: #fff;}
-    ::selection {background: var(--xhbcmpre-theme-color)!important;color: #fff;}
+    .CodemaoPrettify-flex .mdui-textfield{padding:0px}
+    .mdui-checkbox input[type=checkbox]:focus:not(:disabled):checked+.mdui-checkbox-icon, .mdui-checkbox input[type=checkbox]:focus:not(:disabled):indeterminate+.mdui-checkbox-icon, .mdui-checkbox:active input[type=checkbox]:not(:disabled):checked+.mdui-checkbox-icon, .mdui-checkbox:active input[type=checkbox]:not(:disabled):indeterminate+.mdui-checkbox-icon{-webkit-box-shadow: 0 0 0 15px var(--xhbcmpre-theme-transparent);box-shadow: 0 0 0 15px var(--xhbcmpre-theme-transparent);}
+    .mdui-radio input[type=radio]:focus:checked:not(:disabled)+.mdui-radio-icon, .mdui-radio:active input[type=radio]:checked:not(:disabled)+.mdui-radio-icon{-webkit-box-shadow: 0 0 0 15px var(--xhbcmpre-theme-transparent);box-shadow: 0 0 0 15px var(--xhbcmpre-theme-transparent);}
+    .mdui-textfield-focus .mdui-textfield-input, .mdui-textfield-focus .mdui-textfield-input:hover {border-bottom-color: var(--xhbcmpre-theme-color)!important;-webkit-box-shadow: 0 1px 0 0 var(--xhbcmpre-theme-color)!important;box-shadow: 0 1px 0 0 var(--xhbcmpre-theme-color)!important;}
+   /* ::-moz-selection {background: var(--xhbcmpre-theme-color)!important;color: #fff;}
+    ::selection {background: var(--xhbcmpre-theme-color)!important;color: #fff;}*/
 `);
     logs("主题色应用样式加载完毕");
 
