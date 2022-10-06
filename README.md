@@ -3,19 +3,19 @@
 
 <p>
  <img src=https://img.shields.io/badge/author-xiaohong2022-blue />
- <img src=https://img.shields.io/badge/version-v1.2.0-green />
+ <img src=https://img.shields.io/badge/version-v1.2.0-orange />
  <img src=https://img.shields.io/badge/licence-GPL3.0-green />
 </p>
 
 ## 版本更新：
 
-<img src=https://img.shields.io/badge/v1.2.0-2022/10/06-green />
+<img src=https://img.shields.io/badge/v1.2.0-2022/10/06-orange />
 
 1.修复了一些Bug
 
 2.添加个人主页中心排版
 
-<img src=https://img.shields.io/badge/v1.1.0-2022/10/05-green />
+<img src=https://img.shields.io/badge/v1.1.0-2022/10/05-orange />
 
 1.修复了一些Bug
 
@@ -27,7 +27,7 @@
 
 5.其他
 
-<img src=https://img.shields.io/badge/v1.0.0-2022/10/04-green />
+<img src=https://img.shields.io/badge/v1.0.0-2022/10/04-orange />
 
 1.上线！
 
