@@ -4,6 +4,7 @@
 <p>
  <img src=https://img.shields.io/badge/author-xiaohong2022-blue />
  <img src=https://img.shields.io/badge/version-v1.2.0-green />
+ <img src=https://img.shields.io/badge/licence-GPL3.0-green />
 </p>
 
 ## 目前支持：
