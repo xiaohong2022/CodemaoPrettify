@@ -9,13 +9,13 @@
 
 ## 版本更新：
 
-v1.1.0 2022/10/06
+<img src=https://img.shields.io/badge/v1.2.0-2022/10/06-green />
 
 1.修复了一些Bug
 
 2.添加个人主页中心排版
 
-v1.1.0 2022/10/05
+<img src=https://img.shields.io/badge/v1.1.0-2022/10/05-green />
 
 1.修复了一些Bug
 
@@ -27,7 +27,7 @@ v1.1.0 2022/10/05
 
 5.其他
 
-v1.0.0 2022/10/04
+<img src=https://img.shields.io/badge/v1.0.0-2022/10/04-green />
 
 1.上线！
 
