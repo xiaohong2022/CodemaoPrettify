@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CodemaoPrettify
 // @namespace    https://shequ.codemao.cn/
-// @version      1.2.0
+// @version      1.3.0
 // @description  美化编程猫主页的一个小插件
 // @author       xiaohong2022
 // @match        *://shequ.codemao.cn/*
@@ -19,7 +19,7 @@
     try {
         console.log('%cCodemaoPrettify', 'text-shadow: 0 1px 0 #ccc,0 2px 0 #ffc9c9,0 3px 0 #bbb,0 4px 0 #ffb9b9,0 5px 0 #aaa,0 6px 1px rgba(255,0,0,.1),0 0 5px rgba(255,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(255,0,0,.2),0 5px 10px rgba(255,0,0,.25);font-size:3em;color:#f00');
         console.log("%c嘿，欢迎使用 CodemaoPrettify！", "font-size:10px;padding:10px 0px 5px 0px");
-        console.log("%cCodemaoPrettify v1.2.0", "font-size:10px;color:#f00");
+        console.log("%cCodemaoPrettify v1.3.0", "font-size:10px;color:#f00");
         console.log("%cCopyright (c) 2022 xiaohong2022", "font-size:10px;padding:0px 0px 10px 0px;color:#f00");
 
         f((...content) => {
@@ -98,6 +98,13 @@
             "艺术": false,
             "格斗竞技": false,
         },
+        discoverhide2: {
+            "源码精灵": false,
+            "图书馆": false,
+            "通天塔": false,
+            "神奇代码岛": false,
+            "漫画连载": false,
+        },
         communityhide: {
             "热门活动": false,
             "积木编程乐园": false,
@@ -139,6 +146,15 @@
             "荣誉墙": false,
             "我正在做什么": false,
         },
+        mypagehide: {
+            "KittenV3": false,
+            "KittenV4": false,
+            "nemo": false,
+            "海龟编辑器": false,
+            "神奇代码岛": false,
+            "小说": false,
+            "CoCo编辑器": false,
+        },
         banner: {
             open: false,
             colormode: false,
@@ -146,6 +162,7 @@
             image: "https://cdn-community.codemao.cn/community_frontend/asset/banner_65b4a.png"
         },
         css: "",
+        runjs: "",
         showfooter: true,
         showsidenav: true,
         usemdui: true,
@@ -294,7 +311,7 @@
     const offbtn = SettingsRootdialog.children[1].children[1];
     addhtml(content, "p", { style: "text-shadow: 0 1px 0 #ccc,0 2px 0 #ffc9c9,0 3px 0 #bbb,0 4px 0 #ffb9b9,0 5px 0 #aaa,0 6px 1px rgba(255,0,0,.1),0 0 5px rgba(255,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(255,0,0,.2),0 5px 10px rgba(255,0,0,.25);font-size:3em;color:#f00" },
         "CodemaoPrettify");
-    addhtml(content, "p", {}, "CodemaoPrettify v1.2.0 GPL-3.0");
+    addhtml(content, "p", {}, "CodemaoPrettify v1.3.0 GPL-3.0");
     addhtml(content, "p", {}, "Copyright © 2022 xiaohong2022 All Rights Reserved.");
     addhtml(content, "p", { class: "mdui-typo-title" }, "主色调");
     const t2 = addcolorbox(content, settings.theme.color)
@@ -381,7 +398,16 @@
             updata();
         })
     }
-    addhtml(content, "p", { class: "mdui-typo-title" }, "发现页排版");
+    addhtml(content, "p", { class: "mdui-typo-title" }, "发现页传送门排版");
+    var t30 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
+    for (const oooo in settings.discoverhide2) {
+        let t8 = addcheckbox(t30, oooo, !settings.discoverhide2[oooo])
+        t7.push(t8);
+        t8.onchange = ((v, t) => {
+            settings.discoverhide2[t] = !v
+        })
+    }
+    addhtml(content, "p", { class: "mdui-typo-title" }, "发现页热门作品分类排版");
     var t11 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
     for (const oooo in settings.discoverhide) {
         let t8 = addcheckbox(t11, oooo, !settings.discoverhide[oooo])
@@ -390,7 +416,7 @@
             settings.discoverhide[t] = !v
         })
     }
-    addhtml(content, "p", { class: "mdui-typo-title" }, "论坛页排版");
+    addhtml(content, "p", { class: "mdui-typo-title" }, "论坛页帖子类型选择排版");
     var t12 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
     for (const oooo in settings.communityhide) {
         let t8 = addcheckbox(t12, oooo, !settings.communityhide[oooo])
@@ -399,13 +425,22 @@
             settings.communityhide[t] = !v
         })
     }
-    addhtml(content, "p", { class: "mdui-typo-title" }, "活动页排版");
+    addhtml(content, "p", { class: "mdui-typo-title" }, "活动页类型选择排版");
     var t13 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
     for (const oooo in settings.galleryhide) {
         let t8 = addcheckbox(t13, oooo, !settings.galleryhide[oooo])
         t7.push(t8);
         t8.onchange = ((v, t) => {
             settings.galleryhide[t] = !v
+        })
+    }
+    addhtml(content, "p", { class: "mdui-typo-title" }, "作品管理页类型选择排版");
+    var t31 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, "");
+    for (const oooo in settings.mypagehide) {
+        let t8 = addcheckbox(t31, oooo, !settings.mypagehide[oooo])
+        t7.push(t8);
+        t8.onchange = ((v, t) => {
+            settings.mypagehide[t] = !v
         })
     }
     addhtml(content, "p", { class: "mdui-typo-title" }, "个人中心排版");
@@ -522,7 +557,7 @@
         }
     }
     addhtml(content, "p", { class: "mdui-typo-title" }, "自定义CSS");
-    var t19 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, `<div class="mdui-textfield"><textarea class="mdui-textfield-input"></textarea></div>`);
+    var t19 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, `<div class="mdui-textfield"><textarea class="mdui-textfield-input" style='font-family: Menlo, Monaco, "Courier New", monospace;'></textarea></div>`);
     t19.children[0].children[0].oninput = ({ target }) => {
         settings.css = target.value;
         updata()
@@ -532,7 +567,19 @@
         updata()
         updata()
     }
-    t19.children[0].children[0].value=settings.css;
+    t19.children[0].children[0].value = settings.css;
+    addhtml(content, "p", { class: "mdui-typo-title", style: "margin-top:20px" }, "自定义代码（重新加载后生效并运行）");
+    var t29 = addhtml(content, "div", { class: "CodemaoPrettify-flex" }, `<div class="mdui-textfield"><textarea class="mdui-textfield-input" style='font-family: Menlo, Monaco, "Courier New", monospace;'></textarea></div>`);
+    t29.children[0].children[0].oninput = ({ target }) => {
+        settings.runjs = target.value;
+        updata()
+        updata()
+        updata()
+        updata()
+        updata()
+        updata()
+    }
+    t29.children[0].children[0].value = settings.runjs;
     SettingsRoot.onclick = (() => {
         new mdui.Dialog(SettingsRootdialog).open();
         logs("设置窗口被打开");
@@ -655,6 +702,15 @@
                         }
                     }
                 })
+                $(".r-community-c-forum_sender--select_area span").each((_, e) => {
+                    if (e.innerText == o) {
+                        if (!settings.communityhide[o]) {
+                            e.style.display = ""
+                        } else {
+                            e.style.display = "none"
+                        }
+                    }
+                })
             } catch (e) { }
         }
         for (const o in settings.galleryhide) {
@@ -724,6 +780,24 @@
                 })
             } catch (e) { }
         }
+        for (const o in settings.discoverhide2) {
+            try {
+                if (!settings.discoverhide2[o]) {
+                    $(`.r-discover-c-banner--banner_cont .r-discover-c-banner--item[data-watch_event="发现-${o}"]`)[0].style.display = ""
+                } else {
+                    $(`.r-discover-c-banner--banner_cont .r-discover-c-banner--item[data-watch_event="发现-${o}"]`)[0].style.display = "none"
+                }
+            } catch (e) { }
+        }
+        for (const o in settings.mypagehide) {
+            try {
+                if (!settings.mypagehide[o]) {
+                    $(`.r-work_manager-c-sidebar--sidebar .r-work_manager-c-sidebar--work_type_list_wrap .r-work_manager-c-sidebar--work_type_list .r-work_manager-c-sidebar--work_type_item[data-watch_event="作品管理-${o}tab"]`)[0].style.display = ""
+                } else {
+                    $(`.r-work_manager-c-sidebar--sidebar .r-work_manager-c-sidebar--work_type_list_wrap .r-work_manager-c-sidebar--work_type_list .r-work_manager-c-sidebar--work_type_item[data-watch_event="作品管理-${o}tab"]`)[0].style.display = "none"
+                }
+            } catch (e) { }
+        }
     }
     updatePage()
 
@@ -787,11 +861,13 @@
     .r-user-c-banner--banner .r-user-c-banner--background .r-user-c-banner--container .r-user-c-banner--right-box .r-user-c-banner--btn.r-user-c-banner--master:hover,
     .r-work_manager--work_manager_wrap .r-work_manager--content_wrap .r-work_manager--content_container .r-work_manager--content .r-work_manager--blank_content .r-work_manager--wrap .r-work_manager--create_button .r-work_manager--web_create:hover
     {background:var(--xhbcmpre-theme-hover)!important;}
+
     /* 突出色 */
     .c-navigator--header-content .c-navigator--ide_link,
     .r-work_shop-c-user_card--user_item .r-work_shop-c-user_card--number_one,
     .r-work_shop-c-user_card--user_item .r-work_shop-c-user_card--number_one.r-work_shop-c-user_card--number_two
     {background:var(--xhbcmpre-theme-highlight)!important;}
+
     /* 透明色 */
     .r-course-c-block--block .r-course-c-block--area .r-course-c-block--tag.r-course-c-block--active,
     .c-post_list--post_container .c-post_list--post_footer .c-post_list--has_reply,
@@ -802,6 +878,7 @@
     .r-work_manager--work_panel_header .r-work_manager--status_tab_container .r-work_manager--status_tab.r-work_manager--selected,
     .r-work_manager-c-sidebar--sidebar .r-work_manager-c-sidebar--work_type_list_wrap .r-work_manager-c-sidebar--work_type_list .r-work_manager-c-sidebar--work_type_item:hover
     {background:var(--xhbcmpre-theme-transparent)!important;}
+
     /* 主题色 */
     .c-navigator--navigator,
     .r-discover-c-tagList--sort_cont .r-discover-c-tagList--sort_item.r-discover-c-tagList--select,
@@ -839,6 +916,7 @@
     .r-work_manager-c-action_button--action_button:hover,
     .r-user-c-banner--banner .r-user-c-banner--background .r-user-c-banner--container .r-user-c-banner--right-box .r-user-c-banner--btn.r-user-c-banner--master,
     .mdui-radio-icon::before,
+    .r-home-c-video_player--player_video_wrap .r-home-c-video_player--jump_btn,
     .r-work_manager--work_manager_wrap .r-work_manager--content_wrap .r-work_manager--content_container .r-work_manager--content .r-work_manager--blank_content .r-work_manager--wrap .r-work_manager--create_button .r-work_manager--web_create
     {background:var(--xhbcmpre-theme-color)!important;}
 
@@ -885,11 +963,16 @@
     .loading_container,
     .r-discover--header .r-discover--switch-box li:hover,
     .r-setting--left_area a.r-setting--active,
+    .r-community--forum_filter .r-community--filter_tab.r-community--active,
+    .r-community--forum_filter .r-community--filter_tab:hover,
+    .r-home-c-video_player--player_video_wrap .r-home-c-video_player--jump_btn.r-home-c-video_player--second_btn,
+    .c-post_list--post_container .c-post_list--post_footer .c-post_list--has_reply,
     .r-work_manager--work_panel_header .r-work_manager--status_tab_container .r-work_manager--status_tab:hover,
+    .r-message--container .r-message--load_more:hover,
     .r-community-r-detail-c-comment_item--content_container .r-community-r-detail-c-comment_item--content_bottom .r-community-r-detail-c-comment_item--content_praise.r-community-r-detail-c-comment_item--active i,
     .r-work-c-comment_area-c-comment_item--content_container .r-work-c-comment_area-c-comment_item--content_bottom .r-work-c-comment_area-c-comment_item--content_praise.r-work-c-comment_area-c-comment_item--active i,
     .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion.r-work-c-comment_area-c-comment_editor--active,
-    .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion:hover,
+    .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion:hover
     {color:var(--xhbcmpre-theme-color)!important;}
 
     .r-discover--header .r-discover--switch-box .r-discover--active,
@@ -916,7 +999,9 @@
     .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--editor:focus,
     .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion.r-work-c-comment_area-c-comment_editor--active,
     .r-work-c-comment_area-c-comment_editor--content_container .r-work-c-comment_area-c-comment_editor--edit_emotion .r-work-c-comment_area-c-comment_editor--insert_emotiion:hover,
-    .mdui-radio input[type=radio]:checked+.mdui-radio-icon
+    .mdui-radio input[type=radio]:checked+.mdui-radio-icon,
+    .r-home-c-video_player--player_video_wrap .r-home-c-video_player--jump_btn.r-home-c-video_player--second_btn,
+    .r-message--container .r-message--load_more:hover
     {border-color:var(--xhbcmpre-theme-color)!important;}
     /* 其他 */
     .r-discover-c-tagList--sort_cont .r-discover-c-tagList--sort_item:hover{color:#fff!important;background:var(--xhbcmpre-theme-hover)!important;}
@@ -929,6 +1014,7 @@
     .r-setting--account_setting .r-setting--setting_item .r-setting--setting_btn{color:#fff!important;}
     .CodemaoPrettify-flex {display: flex;flex-direction: column;}
     .CodemaoPrettify-flex .mdui-textfield{padding:0px}
+    .r-home-c-video_player--player_video_wrap .r-home-c-video_player--jump_btn.r-home-c-video_player--second_btn{background:#fff!important}
     .mdui-checkbox input[type=checkbox]:focus:not(:disabled):checked+.mdui-checkbox-icon, .mdui-checkbox input[type=checkbox]:focus:not(:disabled):indeterminate+.mdui-checkbox-icon, .mdui-checkbox:active input[type=checkbox]:not(:disabled):checked+.mdui-checkbox-icon, .mdui-checkbox:active input[type=checkbox]:not(:disabled):indeterminate+.mdui-checkbox-icon{-webkit-box-shadow: 0 0 0 15px var(--xhbcmpre-theme-transparent);box-shadow: 0 0 0 15px var(--xhbcmpre-theme-transparent);}
     .mdui-radio input[type=radio]:focus:checked:not(:disabled)+.mdui-radio-icon, .mdui-radio:active input[type=radio]:checked:not(:disabled)+.mdui-radio-icon{-webkit-box-shadow: 0 0 0 15px var(--xhbcmpre-theme-transparent);box-shadow: 0 0 0 15px var(--xhbcmpre-theme-transparent);}
     .mdui-textfield-focus .mdui-textfield-input, .mdui-textfield-focus .mdui-textfield-input:hover {border-bottom-color: var(--xhbcmpre-theme-color)!important;-webkit-box-shadow: 0 1px 0 0 var(--xhbcmpre-theme-color)!important;box-shadow: 0 1px 0 0 var(--xhbcmpre-theme-color)!important;}
@@ -936,6 +1022,15 @@
     ::selection {background: var(--xhbcmpre-theme-color)!important;color: #fff;}*/
 `);
     logs("主题色应用样式加载完毕");
+
+    // 运行用户代码
+    const runJavascript = {
+        run() {
+            setTimeout(String(settings.runjs), 500)
+            logs("用户自定义JS已运行");
+        }
+    }
+    runJavascript.run();
 
     // 加载完毕
     logs("加载完毕，用时", Date.now() - starttime, "ms");
