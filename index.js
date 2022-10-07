@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CodemaoPrettify
 // @namespace    https://shequ.codemao.cn/
-// @version      1.3.0
+// @version      1.3.2
 // @description  美化编程猫主页的一个小插件
 // @author       xiaohong2022
 // @match        *://shequ.codemao.cn/*
@@ -19,7 +19,7 @@
     try {
         console.log('%cCodemaoPrettify', 'text-shadow: 0 1px 0 #ccc,0 2px 0 #ffc9c9,0 3px 0 #bbb,0 4px 0 #ffb9b9,0 5px 0 #aaa,0 6px 1px rgba(255,0,0,.1),0 0 5px rgba(255,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(255,0,0,.2),0 5px 10px rgba(255,0,0,.25);font-size:3em;color:#f00');
         console.log("%c嘿，欢迎使用 CodemaoPrettify！", "font-size:10px;padding:10px 0px 5px 0px");
-        console.log("%cCodemaoPrettify v1.3.0", "font-size:10px;color:#f00");
+        console.log("%cCodemaoPrettify v1.3.2", "font-size:10px;color:#f00");
         console.log("%cCopyright (c) 2022 xiaohong2022", "font-size:10px;padding:0px 0px 10px 0px;color:#f00");
 
         f((...content) => {
@@ -311,7 +311,7 @@
     const offbtn = SettingsRootdialog.children[1].children[1];
     addhtml(content, "p", { style: "text-shadow: 0 1px 0 #ccc,0 2px 0 #ffc9c9,0 3px 0 #bbb,0 4px 0 #ffb9b9,0 5px 0 #aaa,0 6px 1px rgba(255,0,0,.1),0 0 5px rgba(255,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(255,0,0,.2),0 5px 10px rgba(255,0,0,.25);font-size:3em;color:#f00" },
         "CodemaoPrettify");
-    addhtml(content, "p", {}, "CodemaoPrettify v1.3.0 GPL-3.0");
+    addhtml(content, "p", {}, "CodemaoPrettify v1.3.2 GPL-3.0");
     addhtml(content, "p", {}, "Copyright © 2022 xiaohong2022 All Rights Reserved.");
     addhtml(content, "p", { class: "mdui-typo-title" }, "主色调");
     const t2 = addcolorbox(content, settings.theme.color)
@@ -760,6 +760,15 @@
                         }
                     }
                 })
+                $(`.r-course-c-guide--slide_nav_wrap .r-course-c-guide--slide_nav .r-course-c-guide--slide_item`).each((_, e) => {
+                    if (e.innerText == o) {
+                        if (!settings.coursehide[o]) {
+                            e.style.display = ""
+                        } else {
+                            e.style.display = "none"
+                        }
+                    }
+                })
             } catch (e) { }
         }
         for (const o in settings.usercenterhide) {
@@ -800,40 +809,6 @@
         }
     }
     updatePage()
-
-    // 帖子防吞格式
-    if (/.+:\/\/shequ.codemao.cn\/community\/.+/.test(window.location.href)) {
-        const textarea = "#react-tinymce-0_ifr";
-        var doNotShield = {
-            run: async () => {
-                const content = document.querySelector(textarea).contentDocument.body;
-                const data = `<!DOCTYPE HTML>
-<html lang="ch-Zh">
-<head>
-    <meta charset="utf-8">
-    <link href="https://static.codemao.cn/community/prism/prism.min.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-    ${content.innerHTML}
-</body>
-</html>`;
-                document.querySelector(textarea).contentDocument.body.innerHTML = `<iframe style="width: 100%; height: 100%; display: block; margin: 40px auto; max-width: 100%;" class="do-not-shield"></iframe>`;
-                document.querySelector(textarea).contentDocument.querySelector('.do-not-shield').contentDocument.write(`
-            <form method="post" style="display:none;" action="https://codemaoblog.pythonanywhere.com/box3/hash/new">
-			<input name="text">
-			<input type="submit">
-		</form>
-		<script>
-			document.querySelector('input').value = \`${data}\`;
-			document.querySelectorAll('input')[1].click();
-		</script>`);
-                setTimeout(() => {
-                    document.querySelector(textarea).contentDocument.querySelector('.do-not-shield').setAttribute('src', '//codemaoblog.pythonanywhere.com/box3/hash.html?hash=' + md5(data.replaceAll('\n', ''), 32))
-                }, 1000)
-            }
-        };
-        doNotShield.run();
-    }
 
     // 样式表
     GM_addStyle(`
