@@ -3,11 +3,19 @@
 
 <p>
  <img src=https://img.shields.io/badge/author-xiaohong2022-blue />
- <img src=https://img.shields.io/badge/version-v1.3.0-orange />
+ <img src=https://img.shields.io/badge/version-v1.3.2-orange />
  <img src=https://img.shields.io/badge/licence-GPL3.0-green />
 </p>
 
 ## 版本更新：
+
+<img src=https://img.shields.io/badge/v1.3.2-2022/10/07-orange />
+
+1.修复了一些Bug
+
+2.把帖子防吞格式去了（）感觉没啥用（）
+
+3.其他
 
 <img src=https://img.shields.io/badge/v1.3.0-2022/10/07-orange />
 
