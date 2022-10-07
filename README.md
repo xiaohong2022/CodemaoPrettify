@@ -58,7 +58,7 @@
 
 1.先安装一个脚本管理器（例如：油猴 `tempermonkey`、脚本猫 `ScriptCat`，可以参考[这个网页](https://greasyfork.org/)）
 
-2.点击“新建脚本”
+2.打开脚本管理器控制版面，点击“新建脚本”
 
 3.把 [代码](https://github.com/xiaohong2022/CodemaoPrettify/blob/main/index.js) 粘贴到里面
 
