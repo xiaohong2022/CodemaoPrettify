@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CodemaoPrettify
 // @namespace    https://shequ.codemao.cn/
-// @version      1.3.2
+// @version      1.3.4
 // @description  美化编程猫主页的一个小插件
 // @author       xiaohong2022
 // @match        *://shequ.codemao.cn/*
@@ -12,19 +12,28 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
 // @license      GPL-3.0
+// @connect      *://shequ.codemao.cn/*
 // ==/UserScript==
+
+const version= "1.3.4";
 
 !function (f) {
     try {
         console.log('%cCodemaoPrettify', 'text-shadow: 0 1px 0 #ccc,0 2px 0 #ffc9c9,0 3px 0 #bbb,0 4px 0 #ffb9b9,0 5px 0 #aaa,0 6px 1px rgba(255,0,0,.1),0 0 5px rgba(255,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(255,0,0,.2),0 5px 10px rgba(255,0,0,.25);font-size:3em;color:#f00');
         console.log("%c嘿，欢迎使用 CodemaoPrettify！", "font-size:10px;padding:10px 0px 5px 0px");
-        console.log("%cCodemaoPrettify v1.3.2", "font-size:10px;color:#f00");
+        console.log("%cCodemaoPrettify v"+version, "font-size:10px;color:#f00");
         console.log("%cCopyright (c) 2022 xiaohong2022", "font-size:10px;padding:0px 0px 10px 0px;color:#f00");
-
-        f((...content) => {
-            console.log("%cCodemaoPrettify", "background: #e7520d; border-radius: 3px; padding: 0 4px;color: #fff;", ...content);
-        });
+        GM_xmlhttpRequest({
+            method: "get",
+            url: location.href,
+            onload(){
+                f((...content) => {
+                    console.log("%cCodemaoPrettify", "background: #e7520d; border-radius: 3px; padding: 0 4px;color: #fff;", ...content);
+                });
+            }
+        })
     } catch (e) {
         console.error(e);
         console.log("加载出错", e);
@@ -179,7 +188,7 @@
 
     // 添加涟漪特效
     [
-        ".c-navigator--header-content .c-navigator--nav_wrap .c-navigator--item", "a",
+        `.c-navigator--header-content .c-navigator--nav_wrap .c-navigator--item:not([data-watch_event="更多-入口tab"])`, "a",
         ".r-gallery--label", ".r-mall-r-home--tap", ".c-post_list--post_body",
         ".r-work_shop-r-details--user_card", ".c-post_box-post_cont--send_btn",
         ".r-work_shop-r-details--work_card", ".r-home-c-box3_recommend--work_card_wrap",
@@ -310,8 +319,8 @@
     const resetbtn = SettingsRootdialog.children[1].children[0];
     const offbtn = SettingsRootdialog.children[1].children[1];
     addhtml(content, "p", { style: "text-shadow: 0 1px 0 #ccc,0 2px 0 #ffc9c9,0 3px 0 #bbb,0 4px 0 #ffb9b9,0 5px 0 #aaa,0 6px 1px rgba(255,0,0,.1),0 0 5px rgba(255,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(255,0,0,.2),0 5px 10px rgba(255,0,0,.25);font-size:3em;color:#f00" },
-        "CodemaoPrettify");
-    addhtml(content, "p", {}, "CodemaoPrettify v1.3.2 GPL-3.0");
+            "CodemaoPrettify");
+    addhtml(content, "p", {}, "CodemaoPrettify v"+version+" GPL-3.0");
     addhtml(content, "p", {}, "Copyright © 2022 xiaohong2022 All Rights Reserved.");
     addhtml(content, "p", { class: "mdui-typo-title" }, "主色调");
     const t2 = addcolorbox(content, settings.theme.color)
