@@ -3,11 +3,21 @@
 
 <p>
  <img src=https://img.shields.io/badge/author-xiaohong2022-blue />
- <img src=https://img.shields.io/badge/version-v1.3.2-orange />
+ <img src=https://img.shields.io/badge/version-v1.3.4-orange />
  <img src=https://img.shields.io/badge/licence-GPL3.0-green />
 </p>
 
 ## 版本更新：
+
+<img src=https://img.shields.io/badge/v1.3.4-2022/11/19-orange />
+
+1.修复了一些Bug
+
+2.停更（如果再更新的话就诈尸了）
+
+<img src=https://img.shields.io/badge/v1.3.3-2022/11/19-orange />
+
+1.修复了一些Bug
 
 <img src=https://img.shields.io/badge/v1.3.2-2022/10/07-orange />
 
